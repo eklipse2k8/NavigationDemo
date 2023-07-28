@@ -7,14 +7,39 @@
 
 import SwiftUI
 
+// workaround for extra safearea inset
+private let SAFEAREA_INSET = -32.0
+
 struct ChildView: View {
   var body: some View {
-    ScrollView {
-      Text("I am the child")
+    GeometryReader { proxy in
+      ScrollView {
+        Text("I am the child")
+          .frame(maxWidth: .infinity)
+          .padding()
+      }
+      .background(Color(uiColor: .systemBackground))
+      .frame(width: proxy.size.width, height: proxy.size.height)
+      .navigationBarTitleDisplayMode(.inline)
+      .toolbar {
+        ToolbarItem(placement: .primaryAction) {
+          Button(action: {}, label: {
+            Image(systemName: "gearshape.fill")
+          })
+        }
+      }
+      .toolbarBackground(.hidden, for: .navigationBar)
     }
-    .navigationTitle("Child")
-    .navigationBarTitleDisplayMode(.inline)
-    .navigationBarBackButtonHidden(false)
+    .safeAreaInset(edge: .top, spacing: SAFEAREA_INSET) {
+      HStack(alignment: .center) {
+        Text("Child")
+          .font(.body.bold())
+          .padding(.bottom, 8.0)
+          .frame(maxWidth: .infinity)
+      }
+      .background(.thinMaterial)
+      .offset(CGSize(width: 0, height: SAFEAREA_INSET))
+    }
   }
 }
 
@@ -45,7 +70,7 @@ struct ContentView: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
       }
-      .navigationTitle("Home Screen")
+      .navigationTitle("Home")
       .navigationBarTitleDisplayMode(.inline)
     }
   }
