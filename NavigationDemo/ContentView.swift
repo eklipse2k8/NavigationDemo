@@ -70,7 +70,13 @@ struct ContentView: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
       }
-      .navigationTitle("Home")
+      .navigationTitle("")
+      .toolbar {
+        ToolbarItem(placement: .principal) {
+          Text("Home")
+            .font(.body.bold())
+        }
+      }
       .navigationBarTitleDisplayMode(.inline)
     }
   }
